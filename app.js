@@ -7,6 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+global.redisClient = require('./db/redis').redisClient;
+
 var app = express();
 
 // view engine setup
