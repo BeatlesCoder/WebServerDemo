@@ -4,12 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+var session = require('express-session');
+
+//var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var setData = require('./routes/setData');
+var getData = require('./routes/getData');
 
 global.redisClient = require('./db/redis').redisClient;
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,8 +26,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// 使用session中间件
+app.use(session({
+    secret:'secret',
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+        maxAge:1000*60*60*2,   // session有效时长(ms)
+    }
+}))
+
+//app.use('/', indexRouter);
+app.use('/', usersRouter);
+
+
+
+app.use('/setdata', setData);
+app.use('/getdata', getData);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
