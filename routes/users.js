@@ -40,7 +40,7 @@ router.post('/login', function (req, res, next) {
                             req.session.user = user;
                             res.send("登录成功");
                         } else {
-                            res.send("登录失败");
+                            res.send("登录失败，密码错误");
                         }
                     }
                 })

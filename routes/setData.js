@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/', function (req, res) {
-    console.log("setData key:%s, field:%s", req.session.user.uid, req.body.datakey);
+    //console.log("setData key:%s, field:%s", req.session.user.uid, req.body.datakey);
 
     //console.log("setData key:%s, field:%s, value:%s", req.body.uid, req.body.datakey, req.body.data);
     // 判断用户是否登录

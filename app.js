@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 //var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 使用session中间件
 app.use(session({
+    store: new RedisStore({client:redisClient}), // 指定使用redis来存放session
     secret:'secret',
     resave:false,
     saveUninitialized:true,
@@ -35,6 +37,7 @@ app.use(session({
         maxAge:1000*60*60*2,   // session有效时长(ms)
     }
 }))
+
 
 //app.use('/', indexRouter);
 app.use('/', usersRouter);
